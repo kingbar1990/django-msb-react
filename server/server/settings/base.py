@@ -52,8 +52,11 @@ INSTALLED_APPS = [
     "corsheaders",
 
     # local
-    'accounts',
-    'core',
+    'apps.accounts',
+    'apps.core',
+    'apps.deals',
+    'apps.payment',
+    'apps.utility',
 ]
 
 SITE_ID = 1
@@ -97,9 +100,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.environ.get("DATABASE_NAME", "boilerplate"),
-        "USER": os.environ.get("DATABASE_USER", "boilerplate"),
-        "PASSWORD": os.environ.get("DATABASE_PASSWORD", "boilerplate"),
+        "NAME": os.environ.get("DATABASE_NAME", "more_msb"),
+        "USER": os.environ.get("DATABASE_USER", "myuser"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD", "mypass"),
         "HOST": os.environ.get("DATABASE_HOST", "localhost"),
         "PORT": os.environ.get("DATABASE_PORT", 5432),
     }
