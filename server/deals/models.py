@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from apps.accounts.models import User
+from accounts.models import User
 
 
 class Deal(models.Model):

@@ -6,8 +6,8 @@ from django.conf import settings
 
 from rest_framework import routers
 
-from apps.accounts import views as account_views
-from apps.core import views as core_views
+from accounts import views as account_views
+from core import views as core_views
 
 router = routers.DefaultRouter()
 router.register(r'users', account_views.UserViewSet)
@@ -15,7 +15,7 @@ router.register(r'tasks', core_views.TaskViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('apps.accounts.urls')),
+    path('auth/', include('accounts.urls')),
     path('api/', include(router.urls)),
     path('api/users/me/', account_views.UserViewSet.as_view({'pk': 'me'})),
     url('api/token/verify-token/', account_views.VerifyToken.as_view())

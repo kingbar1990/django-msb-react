@@ -52,11 +52,11 @@ INSTALLED_APPS = [
     "corsheaders",
 
     # local
-    'apps.accounts',
-    'apps.core',
-    'apps.deals',
-    'apps.payment',
-    'apps.utility',
+    'accounts',
+    'core',
+    'deals',
+    'payment',
+    'utility',
 ]
 
 SITE_ID = 1
