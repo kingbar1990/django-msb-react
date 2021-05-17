@@ -5,6 +5,7 @@ import Main from "./components/Main";
 import Loader from "./components/Loader";
 import Login from "./pages/Login/index";
 import SignUp from "./pages/SignUp/index";
+import ForgotPassword from "./pages/ForgotPassword/forgotPassword";
 import PageNotFound from "./components/PageNotFound";
 import "./App.css";
 
@@ -20,6 +21,7 @@ class App extends Component {
       <Switch>
         <Route exact path={path.SIGN_IN} component={Login} />
         <Route exact path={path.SIGN_UP} component={SignUp} />
+        <Route exact path={path.FORGOT_PASSWORD} component={ForgotPassword} />
         <Main {...this.props}>
           <Suspense fallback={<Loader />}>
             <Switch>
