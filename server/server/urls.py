@@ -18,7 +18,9 @@ urlpatterns = [
     path('auth/', include('accounts.urls')),
     path('api/', include(router.urls)),
     path('api/users/me/', account_views.UserViewSet.as_view({'pk': 'me'})),
-    url('api/token/verify-token/', account_views.VerifyToken.as_view())
+    url('api/token/verify-token/', account_views.VerifyToken.as_view()),
+    path('api/signup_seller/', account_views.create_auth_seller),
+    path('api/signup_buyer/', account_views.create_auth_buyer),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

@@ -9,6 +9,8 @@ from allauth.account import app_settings as allauth_settings
 from allauth.utils import email_address_exists
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+from rest_framework.exceptions import ValidationError
+
 from .models import User
 
 
@@ -20,6 +22,39 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email',
                   'phone_number', 'avatar', 'auth_token')
+
+
+class SignUpSerializer(serializers.ModelSerializer):
+    password_confirm = serializers.CharField(max_length=50, required=True)
+
+    class Meta:
+        fields = ('username', 'email', 'phone_number', 'load_zone', 'utility_zone',
+                  'seller_code', 'customer_type', 'avatar')
+        model = User
+        extra_kwargs = dict.fromkeys(['phone_number', 'load_zone', 'utility_zone', 'seller_code',
+                                      'password'], {'required': True})
+
+    def validate(self, data):
+        super().validate(data)
+        print(data, flush=True)
+        if data.get('password') != data.get('password_confirm'):
+            raise ValidationError('passwords didn\'t match')
+        return data
+
+
+class SellerSignUpSerializer(SignUpSerializer):
+    pass
+
+
+class BuyerSignUpSerializer(SignUpSerializer):
+    def validate(self, data):
+        super().validate(data)
+        try:
+            seller = User.objects.get(seller_code=data['seller_code'])
+
+        except:
+            raise ValidationError('no seller with appropriate code')
+        return data
 
 
 class RegisterSerializer(serializers.Serializer):
