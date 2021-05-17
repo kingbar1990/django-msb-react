@@ -1,36 +1,22 @@
 import React from "react";
-import { connect } from "react-redux";
-import { verifyToken, getMe } from "../api/queries/index";
-export const isAuth = WrappedComponent => {
-  class Comp extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        user: null
-      };
-    }
-    async componentDidMount() {
-      try {
-        const response = await verifyToken();
-        const me = await getMe(localStorage.getItem('token'))
+import * as path from "../constants/routes";
+import { withRouter } from "react-router";
+import connect from "react-redux/es/connect/connect";
 
-        this.setState({user: me.data} )
-
-        if(!response.data.verified)  {
-          this.props.history.push("/login")
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
+export const isAuth = (Component) => {
+  const mapStateToProps = (state) => {
+    return {
+      profile: state.profile,
+    };
+  };
+  const PrivateRoute = (props) => {
+    const { profile } = props.profile;
+    if (profile) {
+      return <Component {...props} />;
+    } else {
+      props.history.push(path.SIGN_IN);
+      return null;
     }
-
-    render() {
-      console.log(this.state.user)
-      return <WrappedComponent {...this.props} user={this.state.user} />;
-    }
-  }
-  const mapStateToProps = state => ({
-    data: state.user
-  });
-  return connect(mapStateToProps, null)(Comp);
+  };
+  return withRouter(connect(mapStateToProps, null)(PrivateRoute));
 };

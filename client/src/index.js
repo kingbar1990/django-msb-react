@@ -10,12 +10,9 @@ import "./index.css";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { createStore } from "redux";
 
 import { Provider } from "react-redux";
-import appReducer from "./redusers/index.js";
-
-const store = createStore(appReducer);
+import { store } from "./store/store";
 
 ReactDOM.render(
   <BrowserRouter>
