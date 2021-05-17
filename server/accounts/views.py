@@ -26,7 +26,7 @@ def create_auth_seller(request):
         user.customer_type = 'Seller'
         user.save()
         token = Token.objects.get(user=user)
-        return Response({'token': token.key}, status=status.HTTP_201_CREATED)
+        return Response({'token': token.key, 'user': serialized.data}, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
