@@ -94,3 +94,45 @@ export const logout = (moveTo) => {
     });
   };
 };
+
+export const REGISTER_USER = "register_user";
+
+export const registerUser = (values, moveTo) => {
+  return (dispatch) => {
+    dispatch({
+      type: LOADING_TRUE,
+      payload: true,
+    });
+    let url =
+      values.customer_type === "seller"
+        ? API_URL.SIGN_UP_SELLER
+        : API_URL.SIGN_UP_BUYER;
+    axios
+      .post(url, {
+        username: values.name,
+        email: values.email,
+        phone_number: values.phone,
+        load_zone: "NEMA_BOS",
+        utility_zone: values.utility_zone,
+        seller_code: values.seller_code,
+        password: values.password,
+        password_confirm: values.confirm_password,
+        address: values.address,
+      })
+      .then((response) => {
+        localStorage.setItem("token", response.data.auth_token);
+        dispatch({
+          type: LOGIN,
+          payload: response.data,
+        });
+        moveTo();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    dispatch({
+      type: LOADING_FALSE,
+      payload: false,
+    });
+  };
+};

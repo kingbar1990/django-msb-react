@@ -1,4 +1,5 @@
 import React from "react";
+import * as path from "../../constants/routes";
 import { useDispatch } from "react-redux";
 import { LoginForm } from "../../components/Forms/LoginForm/index";
 import { login } from "../../store/actions/profile";
@@ -29,12 +30,14 @@ const useStyles = makeStyles({
 const Login = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+
   const handleLogin = async (values) => {
     const moveTo = () => {
-      props.history.push("/dashboard");
+      props.history.push(path.DASHBOARD);
     };
     dispatch(login(values, moveTo));
   };
+  
   return (
     <Box className={classes.root}>
       <div className={classes.background}></div>

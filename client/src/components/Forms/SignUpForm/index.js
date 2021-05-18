@@ -130,9 +130,7 @@ export const SignUpForm = (props) => {
         seller_code: "",
       }}
       validationSchema={SignupSchema}
-      onSubmit={(values) => {
-        console.log("values", values);
-      }}
+      onSubmit={props.register}
     >
       {({
         values: {

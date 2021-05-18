@@ -1,11 +1,10 @@
 import React from "react";
-
 import * as path from "../../constants/routes";
 import { makeStyles } from "@material-ui/core/styles";
 import { SignUpForm } from "../../components/Forms/SignUpForm/index";
-import swal from "sweetalert";
-import { signUp } from "../../api/queries/index.js";
 import Box from "@material-ui/core/Box";
+import { registerUser } from "../../store/actions/profile";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -29,35 +28,14 @@ const useStyles = makeStyles({
 });
 
 const SignUp = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  
   const handleSignUp = async (values, { setErrors }) => {
-    try {
-      await signUp(values)
-        .then((response) => {
-          if (response.status === 201) {
-            props.history.push(path.DASHBOARD);
-          } else {
-            swal({
-              icon: "error",
-              title: "Ooops something wrong!",
-              text: "Please try again",
-            });
-          }
-        })
-        .catch((error) => {
-          const errors = {};
-          const errorData = error.response.data;
-          for (const key in errorData) {
-            if (errorData.hasOwnProperty(key)) {
-              const element = errorData[key];
-              errors[key] = element.toString();
-            }
-          }
-          setErrors(errors);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    const moveTo = () => {
+      props.history.push(path.DASHBOARD);
+    };
+    dispatch(registerUser(values, moveTo));
   };
 
   return (
