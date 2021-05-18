@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 /*eslint-disable*/
 export const loadData = (key) => {
   const data = JSON.parse(window.localStorage.getItem(key));
@@ -6,12 +6,12 @@ export const loadData = (key) => {
     const timeDiff = Math.abs(data.timestamp - new Date().getTime());
     const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     if (diffDays > 1) {
-      window.localStorage.removeItem('token');
-      return '';
+      window.localStorage.removeItem("token");
+      return "";
     }
     return data.token;
   }
-  return '';
+  return "";
 };
 
 export const saveData = (key, value) => {
@@ -26,10 +26,10 @@ export const getCurrentDate = (date) => {
   let month = today.getMonth() + 1;
   let yyyy = today.getFullYear();
   if (day < 10) {
-    day = '0' + day;
+    day = "0" + day;
   }
   if (month < 10) {
-    month = '0' + month;
+    month = "0" + month;
   }
   return (today = `${yyyy}-${month}-${day}`);
 };
@@ -42,10 +42,10 @@ export const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-export const axiosWrapp = axios.create({
-  baseURL: 'http://localhost:8000',
-  responseType: 'application/json',
-  headers: {
-    Authorization: `Bearer ${loadData('token')}`,
-  },
-});
+// export const axiosWrapp = axios.create({
+//   baseURL: 'http://localhost:8000',
+//   responseType: 'application/json',
+//   headers: {
+//     Authorization: `Bearer ${loadData('token')}`,
+//   },
+// });

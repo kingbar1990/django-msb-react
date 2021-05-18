@@ -38,6 +38,40 @@ export const login = (values, moveTo) => {
   };
 };
 
+export const getProfile = () => {
+  return (dispatch) => {
+    dispatch({
+      type: LOADING_TRUE,
+      payload: true,
+    });
+    let token = localStorage.getItem("token");
+    if (token) {
+      axios({
+        method: "get",
+        url: API_URL.TOKEN_URL,
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }).then((response) => {
+        dispatch({
+          type: LOGIN,
+          payload: response.data,
+        });
+      });
+    } else {
+      window.location.href = "/login";
+    }
+    dispatch({
+      type: LOADING_FALSE,
+      payload: false,
+    });
+    dispatch({
+      type: LOADING_FALSE,
+      payload: false,
+    });
+  };
+};
+
 export const LOGOUT = "logout";
 
 export const logout = (moveTo) => {
