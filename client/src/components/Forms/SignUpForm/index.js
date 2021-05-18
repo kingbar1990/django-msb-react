@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -17,6 +17,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
+import { useSelector, useDispatch } from "react-redux";
+import { get_utility_zones } from "../../../store/actions/utilityZones";
 
 const useStyles = makeStyles({
   root: {
@@ -100,6 +102,19 @@ const useStyles = makeStyles({
 });
 
 export const SignUpForm = (props) => {
+  const utility_zones = useSelector(
+    (state) => state.utility_zones.utility_zones
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!utility_zones) {
+      dispatch(get_utility_zones());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  let arrUtilityZones = utility_zones ? Object.keys(utility_zones) : [];
   const classes = useStyles();
   return (
     <Formik
@@ -115,7 +130,9 @@ export const SignUpForm = (props) => {
         seller_code: "",
       }}
       validationSchema={SignupSchema}
-      onSubmit={props.register}
+      onSubmit={(values) => {
+        console.log("values", values);
+      }}
     >
       {({
         values: {
@@ -309,9 +326,13 @@ export const SignUpForm = (props) => {
                       }}
                     >
                       <option aria-label="None" value="" />
-                      <option value={10}>Ten</option>
-                      <option value={20}>Twenty</option>
-                      <option value={30}>Thirty</option>
+                      {arrUtilityZones.map((item, index) => {
+                        return (
+                          <option value={item} key={item + index}>
+                            {utility_zones[item]}
+                          </option>
+                        );
+                      })}
                     </Select>
                     {touched.utility_zone && errors.utility_zone ? (
                       <FormHelperText>

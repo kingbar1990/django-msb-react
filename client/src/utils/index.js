@@ -1,4 +1,3 @@
-import axios from "axios";
 /*eslint-disable*/
 export const loadData = (key) => {
   const data = JSON.parse(window.localStorage.getItem(key));
@@ -41,11 +40,3 @@ export const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-
-// export const axiosWrapp = axios.create({
-//   baseURL: 'http://localhost:8000',
-//   responseType: 'application/json',
-//   headers: {
-//     Authorization: `Bearer ${loadData('token')}`,
-//   },
-// });
