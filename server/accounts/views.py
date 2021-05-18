@@ -31,7 +31,8 @@ def create_auth_seller(request):
             [f'{user.email}'],
             fail_silently=False,
         )
-        return Response({'token': token.key, 'user': serialized.data}, status=status.HTTP_201_CREATED)
+        user_serializer = UserSerializer(instance=user)
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -43,7 +44,8 @@ def create_auth_buyer(request):
         user.customer_type = 'Buyer'
         user.save()
         token = Token.objects.get(user=user)
-        return Response({'token': token.key, 'user': serialized.data}, status=status.HTTP_201_CREATED)
+        user_serializer = UserSerializer(instance=user)
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
