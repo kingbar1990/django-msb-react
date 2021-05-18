@@ -24,7 +24,7 @@ def create_auth_seller(request):
     if serialized.is_valid():
         user = serialized.save()
         token = Token.objects.get(user=user)
-        user.customer_type = 'Seller'
+        user.customer_type = 'SELLER'
         send_mail(
             'Email Verification',
             'Here is the message.',
@@ -42,7 +42,7 @@ def create_auth_buyer(request):
     serialized = BuyerSignUpSerializer(data=request.data)
     if serialized.is_valid():
         user = serialized.save()
-        user.customer_type = 'Buyer'
+        user.customer_type = 'BUYER'
         user.save()
         token = Token.objects.get(user=user)
         user_serializer = UserSerializer(instance=user)
