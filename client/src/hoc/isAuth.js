@@ -10,8 +10,8 @@ export const isAuth = (Component) => {
     };
   };
   const PrivateRoute = (props) => {
-    const { profile } = props.profile;
-    if (profile) {
+    let token = localStorage.getItem("token");
+    if (token) {
       return <Component {...props} />;
     } else {
       props.history.push(path.SIGN_IN);
