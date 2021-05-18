@@ -1,7 +1,7 @@
 
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
-
+from django.core.exceptions import ObjectDoesNotExist
 from drf_extra_fields.fields import Base64ImageField
 
 
@@ -25,21 +25,28 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    password_confirm = serializers.CharField(max_length=50, required=True)
+    password_confirm = serializers.CharField(max_length=50, required=True, write_only=True)
 
     class Meta:
         fields = ('username', 'email', 'phone_number', 'load_zone', 'utility_zone',
-                  'seller_code', 'customer_type', 'avatar')
+                  'seller_code', 'customer_type', 'avatar', 'password', 'password_confirm', 'address')
         model = User
         extra_kwargs = dict.fromkeys(['phone_number', 'load_zone', 'utility_zone', 'seller_code',
-                                      'password'], {'required': True})
+                                      'password', 'password_confirm'], {'required': True})
 
     def validate(self, data):
         super().validate(data)
         if data.get('password') != data.get('password_confirm'):
-            raise ValidationError('passwords didn\'t match')
+            raise ValidationError('password and password confirm didn\'t match')
         return data
 
+    def save(self):
+        data = self.validated_data.copy()
+        del data['password_confirm']
+        user = User(**data)
+        user.set_password(self.validated_data['password'])
+        user.save()
+        return user
 
 class SellerSignUpSerializer(SignUpSerializer):
     def validate(self, data):
@@ -53,12 +60,11 @@ class SellerSignUpSerializer(SignUpSerializer):
 class BuyerSignUpSerializer(SignUpSerializer):
     def validate(self, data):
         super().validate(data)
-        try:
-            seller = User.objects.get(seller_code=data['seller_code'])
-
-        except:
-            raise ValidationError('no seller with appropriate code')
-        return data
+        
+        sellers = User.objects.filter(seller_code=data['seller_code'])
+        if len(sellers):
+            return data
+        raise ValidationError('no seller with appropriate code')
 
 
 class RegisterSerializer(serializers.Serializer):
