@@ -2,11 +2,11 @@ import * as Yup from "yup";
 import { MIN_PASSWORD_LENGTH } from "../../../constants";
 
 export const SignupSchema = Yup.object().shape({
-  name: Yup.string()
+  username: Yup.string()
     .min(2, "Name has to be longer than 2 characters!")
     .max(64, "Name has to be shorter than 64 characters!")
     .required("Name is required!"),
-  phone: Yup.string()
+  phone_number: Yup.string()
     .required("E-mail is required!")
     .matches(/^[+]{1}[0-9]+$/, "Phone is not valid"),
   email: Yup.string()
@@ -19,7 +19,7 @@ export const SignupSchema = Yup.object().shape({
       `Password has to be longer than ${MIN_PASSWORD_LENGTH} characters!`
     )
     .required("Password is required!"),
-  confirm_password: Yup.string()
+  password_confirm: Yup.string()
     .required("Password confirmation is required!")
     .min(
       MIN_PASSWORD_LENGTH,

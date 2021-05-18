@@ -30,12 +30,12 @@ const useStyles = makeStyles({
 const SignUp = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  
-  const handleSignUp = async (values, { setErrors }) => {
+
+  const handleSignUp = async (values, { setFieldError }) => {
     const moveTo = () => {
       props.history.push(path.DASHBOARD);
     };
-    dispatch(registerUser(values, moveTo));
+    dispatch(registerUser(values,setFieldError, moveTo));
   };
 
   return (

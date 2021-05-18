@@ -119,13 +119,13 @@ export const SignUpForm = (props) => {
   return (
     <Formik
       initialValues={{
-        name: "",
-        phone: "",
+        username: "",
+        phone_number: "",
         email: "",
-        adress: "",
+        address: "",
         password: "",
         utility_zone: "",
-        confirm_password: "",
+        password_confirm: "",
         customer_type: "",
         seller_code: "",
       }}
@@ -134,13 +134,13 @@ export const SignUpForm = (props) => {
     >
       {({
         values: {
-          name,
-          phone,
+          username,
+          phone_number,
           email,
-          adress,
+          address,
           password,
           utility_zone,
-          confirm_password,
+          password_confirm,
           customer_type,
           seller_code,
         },
@@ -196,17 +196,17 @@ export const SignUpForm = (props) => {
             >
               <Grid item xs={6}>
                 <Box className={classes.field}>
-                  <InputLabel htmlFor="name" className={classes.label}>
+                  <InputLabel htmlFor="username" className={classes.label}>
                     Name
                   </InputLabel>
                   <TextField
-                    id="name"
-                    name="name"
-                    helperText={touched.name ? errors.name : ""}
-                    error={touched.name && Boolean(errors.name)}
-                    value={name}
+                    id="username"
+                    name="username"
+                    helperText={touched.username ? errors.username : ""}
+                    error={touched.username && Boolean(errors.username)}
+                    value={username}
                     onChange={(e) => {
-                      setFieldValue("name", e.target.value);
+                      setFieldValue("username", e.target.value);
                     }}
                     fullWidth
                     variant="outlined"
@@ -217,17 +217,17 @@ export const SignUpForm = (props) => {
               </Grid>
               <Grid item xs={6}>
                 <Box className={classes.field}>
-                  <InputLabel htmlFor="phone" className={classes.label}>
+                  <InputLabel htmlFor="phone_number" className={classes.label}>
                     Phone
                   </InputLabel>
                   <TextField
-                    id="phone"
-                    name="phone"
-                    helperText={touched.phone ? errors.phone : ""}
-                    error={touched.phone && Boolean(errors.phone)}
-                    value={phone}
+                    id="phone_number"
+                    name="phone_number"
+                    helperText={touched.phone_number ? errors.phone_number : ""}
+                    error={touched.phone_number && Boolean(errors.phone_number)}
+                    value={phone_number}
                     onChange={(e) => {
-                      setFieldValue("phone", e.target.value);
+                      setFieldValue("phone_number", e.target.value);
                     }}
                     fullWidth
                     variant="outlined"
@@ -260,17 +260,17 @@ export const SignUpForm = (props) => {
               </Grid>
               <Grid item xs={6}>
                 <Box className={classes.field}>
-                  <InputLabel htmlFor="adress" className={classes.label}>
+                  <InputLabel htmlFor="address" className={classes.label}>
                     Adress
                   </InputLabel>
                   <TextField
-                    id="adress"
-                    name="adress"
-                    helperText={touched.adress ? errors.adress : ""}
-                    error={touched.adress && Boolean(errors.adress)}
-                    value={adress}
+                    id="address"
+                    name="address"
+                    helperText={touched.address ? errors.address : ""}
+                    error={touched.address && Boolean(errors.address)}
+                    value={address}
                     onChange={(e) => {
-                      setFieldValue("adress", e.target.value);
+                      setFieldValue("address", e.target.value);
                     }}
                     fullWidth
                     variant="outlined"
@@ -343,24 +343,24 @@ export const SignUpForm = (props) => {
               <Grid item xs={6}>
                 <Box className={classes.field}>
                   <InputLabel
-                    htmlFor="confirm_password"
+                    htmlFor="password_confirm"
                     className={classes.label}
                   >
                     Confirm password
                   </InputLabel>
                   <TextField
-                    id="confirm_password"
-                    name="confirm_password"
+                    id="password_confirm"
+                    name="password_confirm"
                     helperText={
-                      touched.confirm_password ? errors.confirm_password : ""
+                      touched.password_confirm ? errors.password_confirm : ""
                     }
                     error={
-                      touched.confirm_password &&
-                      Boolean(errors.confirm_password)
+                      touched.password_confirm &&
+                      Boolean(errors.password_confirm)
                     }
-                    value={confirm_password}
+                    value={password_confirm}
                     onChange={(e) => {
-                      setFieldValue("confirm_password", e.target.value);
+                      setFieldValue("password_confirm", e.target.value);
                     }}
                     fullWidth
                     variant="outlined"

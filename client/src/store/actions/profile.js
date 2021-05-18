@@ -97,7 +97,7 @@ export const logout = (moveTo) => {
 
 export const REGISTER_USER = "register_user";
 
-export const registerUser = (values, moveTo) => {
+export const registerUser = (values, setFieldError, moveTo) => {
   return (dispatch) => {
     dispatch({
       type: LOADING_TRUE,
@@ -109,14 +109,14 @@ export const registerUser = (values, moveTo) => {
         : API_URL.SIGN_UP_BUYER;
     axios
       .post(url, {
-        username: values.name,
+        username: values.username,
         email: values.email,
-        phone_number: values.phone,
+        phone_number: values.phone_number,
         load_zone: "NEMA_BOS",
         utility_zone: values.utility_zone,
         seller_code: values.seller_code,
         password: values.password,
-        password_confirm: values.confirm_password,
+        password_confirm: values.password_confirm,
         address: values.address,
       })
       .then((response) => {
@@ -128,7 +128,9 @@ export const registerUser = (values, moveTo) => {
         moveTo();
       })
       .catch((error) => {
-        console.log("error", error);
+        for (var key in error.response.data) {
+          setFieldError(key, error.response.data[key]);
+        }
       });
     dispatch({
       type: LOADING_FALSE,
