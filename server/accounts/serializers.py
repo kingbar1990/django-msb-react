@@ -37,13 +37,13 @@ class SignUpSerializer(serializers.ModelSerializer):
     def validate(self, data):
         super().validate(data)
         if data.get('password') != data.get('password_confirm'):
-            raise ValidationError('password and password confirm didn\'t match')
+            raise ValidationError({'password_confirm': 'password and password confirm didn\'t match'})
         return data
 
     def save(self):
         data = self.validated_data.copy()
         del data['password_confirm']
-        user = User(**data)
+        user = User(**self.validated_data)
         user.set_password(self.validated_data['password'])
         user.save()
         return user
@@ -53,7 +53,7 @@ class SellerSignUpSerializer(SignUpSerializer):
         super().validate(data)
         sellers = User.objects.filter(seller_code=data['seller_code'])
         if len(sellers):
-            raise ValidationError("seller with code '{}' already exists".format(data['seller_code']))
+            raise ValidationError({"seller_code: ""seller with code '{}' already exists".format(data['seller_code'])})
         return data
 
 
@@ -64,7 +64,7 @@ class BuyerSignUpSerializer(SignUpSerializer):
         sellers = User.objects.filter(seller_code=data['seller_code'])
         if len(sellers):
             return data
-        raise ValidationError('no seller with appropriate code')
+        raise ValidationError({"seller_code": 'no seller with appropriate code'})
 
 
 class RegisterSerializer(serializers.Serializer):
